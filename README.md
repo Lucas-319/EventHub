@@ -1,7 +1,5 @@
 # 📌 NLW Connect 19 - API de Eventos e Inscrições
 
-![NLW Connect 19](rocketseat-logo.png)
-
 🚀 Projeto desenvolvido na **Next Level Week Connect (NLW 19)** da **Rocketseat**, trilha **Java**. O foco desta edição foi a criação de uma **API para controle de eventos e inscrições**, utilizando tecnologias modernas para garantir escalabilidade e eficiência.
 
 ---
