@@ -3,12 +3,10 @@ package br.com.nlw.events.controllers;
 import br.com.nlw.events.dtos.SubscriptionResponse;
 import br.com.nlw.events.models.User;
 import br.com.nlw.events.services.SubscriptionService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class SubscriptionController {
@@ -16,6 +14,7 @@ public class SubscriptionController {
     @Autowired
     private SubscriptionService subscriptionService;
 
+    @Operation(summary = "Inscrição para o evento e Inscrição por indicação", method = "POST")
     @PostMapping({"/subscription/{prettyName}", "/subscription/{prettyName}/{userIndicadorId}"})
     public ResponseEntity<Object> createSubscription(@PathVariable String prettyName,
                                                      @RequestBody User subscriber,
@@ -27,5 +26,19 @@ public class SubscriptionController {
                 return ResponseEntity.ok().body(res);
             }
             return ResponseEntity.badRequest().build();
+    }
+
+    @Operation(summary = "Retorna o ranking geral de indicações para um evento específico", method = "GET")
+    @GetMapping("/subscription/{prettyName}/ranking")
+    public ResponseEntity<Object> generateRankingByEvent(@PathVariable String prettyName) {
+        return ResponseEntity.ok(subscriptionService.getCompleteRanking(prettyName).subList(0, 3));
+    }
+
+    @Operation(summary = "Retorna a posição de um usuário específico no ranking de um evento", method = "GET")
+    @GetMapping("/subscription/{prettyName}/ranking/{userId}")
+    public ResponseEntity<Object> generateRankingByEventAndUser(@PathVariable String prettyName,
+                                                                @PathVariable Integer userId) {
+
+        return ResponseEntity.ok(subscriptionService.getRankingByUser(prettyName, userId));
     }
 }

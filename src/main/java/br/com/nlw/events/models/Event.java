@@ -1,15 +1,10 @@
 package br.com.nlw.events.models;
 
+import br.com.nlw.events.dtos.EventDto;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
-
-import br.com.nlw.events.dtos.CadastroEvento;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tbl_event")
@@ -64,7 +59,7 @@ public class Event {
 
 
 
-	public Event(CadastroEvento dados) {
+	public Event(EventDto dados) {
 		// TODO Auto-generated constructor stub
     	this.setTitle(dados.title());
     	this.setPrettyName(dados.title().toLowerCase().replaceAll(" ", "-"));

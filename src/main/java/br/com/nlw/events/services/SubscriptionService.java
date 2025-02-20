@@ -1,9 +1,12 @@
 package br.com.nlw.events.services;
 
+import br.com.nlw.events.dtos.SubscriptionRankingByUser;
+import br.com.nlw.events.dtos.SubscriptionRankingItem;
 import br.com.nlw.events.dtos.SubscriptionResponse;
 import br.com.nlw.events.exceptions.EventNotFoundException;
 import br.com.nlw.events.exceptions.SubscriptionConflictException;
-import br.com.nlw.events.exceptions.UserIndicadorNotFoundException;
+import br.com.nlw.events.exceptions.UserIndicatorNotFoundException;
+import br.com.nlw.events.models.Event;
 import br.com.nlw.events.models.Subscription;
 import br.com.nlw.events.models.User;
 import br.com.nlw.events.repositorys.EventRepository;
@@ -11,6 +14,9 @@ import br.com.nlw.events.repositorys.SubscriptionRepository;
 import br.com.nlw.events.repositorys.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 public class SubscriptionService {
@@ -24,11 +30,11 @@ public class SubscriptionService {
     @Autowired
     private UserRepository userRepository;
 
-    public SubscriptionResponse createNewSubscription(String eventName, User user, Integer userIndicadorId) {
+    public SubscriptionResponse createNewSubscription(String eventName, User user, Integer userIndicatorId) {
 
         var event = eventRepository.findByPrettyName(eventName);
         if(event == null) { //Caso alternativo 2
-            throw new EventNotFoundException("Evento "+eventName+" nao encontrado.");
+            throw new EventNotFoundException("Event "+eventName+" Not Found.");
         }
 
         User userRecovered = userRepository.findByEmail(user.getEmail());
@@ -37,10 +43,10 @@ public class SubscriptionService {
         }
 
         User indicador = null;
-        if(userIndicadorId != null) {
-             indicador = userRepository.findById(userIndicadorId).orElse(null);
+        if(userIndicatorId != null) {
+             indicador = userRepository.findById(userIndicatorId).orElse(null);
             if (indicador == null) {
-                throw new UserIndicadorNotFoundException("Usuario " + userIndicadorId + " indicador nao existe.");
+                throw new UserIndicatorNotFoundException("Indicator user " + userIndicatorId + " does not exist.");
             }
         }
 
@@ -51,11 +57,35 @@ public class SubscriptionService {
 
         Subscription tmpSubscription = subscriptionRepository.findByEventAndSubscriber(event, userRecovered);
         if(tmpSubscription != null) { //Caso alternativo 3
-            throw new SubscriptionConflictException("Usuario "+ userRecovered.getName() + " ja inscrito no evento "+event.getTitle()+".");
+            throw new SubscriptionConflictException("User "+ userRecovered.getName() + " already registered for the event: "+event.getTitle()+".");
         }
 
         Subscription res = subscriptionRepository.save(subscription);
 
         return new SubscriptionResponse(res.getSubscriptionNumber(), "http://codecraft.com/subscription/"+res.getEvent().getPrettyName()+"/"+res.getSubscriber().getId()+".");
+    }
+
+    public List<SubscriptionRankingItem> getCompleteRanking(String prettyName) {
+        Event event = eventRepository.findByPrettyName(prettyName);
+        if(event == null) {
+            throw new EventNotFoundException("There is no ranking for this event: "+prettyName+".");
+        }
+
+        return subscriptionRepository.generateRanking(event.getEventId());
+    }
+
+    public SubscriptionRankingByUser getRankingByUser(String prettyName,Integer userId) {
+        List<SubscriptionRankingItem> ranking = getCompleteRanking(prettyName);
+
+        SubscriptionRankingItem item = ranking.stream().filter(i -> i.userId().equals(userId)).findFirst().orElse(null);
+        if(item == null) {
+            throw new UserIndicatorNotFoundException("There are no user "+userId+" in the system.");
+        }
+
+        Integer posicao = IntStream.range(0, ranking.size())
+                          .filter(pos -> ranking.get(pos).userId().equals(userId))
+                          .findFirst().getAsInt();
+
+        return new SubscriptionRankingByUser(item, posicao+1);
     }
 }

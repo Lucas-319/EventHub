@@ -1,4 +1,4 @@
-# 📌 NLW Connect 19 - API de Eventos e Inscrições
+# 📌 NLW Connect 19 - EventHub
 
 🚀 Projeto desenvolvido na **Next Level Week Connect (NLW 19)** da **Rocketseat**, trilha **Java**. O foco desta edição foi a criação de uma **API para controle de eventos e inscrições**, utilizando tecnologias modernas para garantir escalabilidade e eficiência.
 
@@ -26,13 +26,12 @@ Antes de iniciar, certifique-se de ter instalado na sua máquina:
 
 1. **Clone o repositório**  
 ```bash
-  git clone https://github.com/Lucas-319/Agenda-Evento
-  cd events
+  git clone https://github.com/Lucas-319/EventHub
 ```
 
 2. **Suba o container do banco de dados**  
 ```bash
-  docker-compose up -d
+  docker compose up -d
 ```
 
 3. **Configure o banco no `application.properties` ou `application.yml`**  
@@ -50,7 +49,7 @@ spring.jpa.hibernate.ddl-auto=update
 ```
 
 5. **Acesse a API** via Swagger UI:  
-📌 [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)  
+📌 [http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/)  
 
 ---
 
@@ -58,6 +57,8 @@ spring.jpa.hibernate.ddl-auto=update
 ✅ Cadastro de evento  
 ✅ Consulta de eventos  
 ✅ Inscrição e inscrição por indicação  
+✅ Ranking de indicações
+
 
 ---
 
@@ -67,11 +68,12 @@ spring.jpa.hibernate.ddl-auto=update
 |---------|----------------------------------------|------------|
 | `POST`  | `/events`                              | Cadastra um novo evento |
 | `GET`   | `/events`                              | Lista todos os eventos |
-| `GET`   | `/events/id/{id}`                      | Lista um evento específico pelo ID |
+| `GET`   | `/events/specific?id=`                 | Lista um evento específico pelo ID |
 | `GET`   | `/events/{prettyName}`                 | Lista um evento específico pelo prettyName do evento |
 | `POST`  | `/subscription/{prettyname}`           | Inscrição para o evento |
-| `POST`  | `/subscription/{prettyname}/{idIndicador}` | Inscrição por indicação |
-
+| `POST`  | `/subscription/{prettyname}/{indicatorId}` | Inscrição por indicação |
+| `GET`   | `/subscription/{prettyname}/ranking`   | Retorna o ranking geral de indicações para um evento específico |
+| `GET`   | `/subscription/{prettyname}/ranking/{indicatorId}`   | Retorna a posição de um usuário específico no ranking do evento |
 ---
 
 ## 📄 Exemplos de Requisições

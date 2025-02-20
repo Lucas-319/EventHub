@@ -1,11 +1,8 @@
 package br.com.nlw.events.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tbl_user")
@@ -14,12 +11,15 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
+	@JsonIgnore
 	private Integer id;
 	
 	@Column(name = "user_name", length = 255, nullable = false)
+	@Schema(description = "Nome completo do inscrito", example = "João da Silva")
 	private String name; 
 	
 	@Column(name = "user_email", length = 255, nullable = false, unique = true)
+	@Schema(description = "Email do inscrito", example = "joao@example.com")
 	private String email;
 
 	public Integer getId() {
