@@ -5,7 +5,7 @@
 ---
 
 ## 🛠 Tecnologias Utilizadas
-- **Java 23** ⚡  
+- **Java 21** ⚡  
 - **Spring Boot** 🌱  
 - **MySQL** 🐬  
 - **Docker** 🐳 (Banco de dados rodando em um container)  
