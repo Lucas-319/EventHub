@@ -18,7 +18,7 @@
 
 ### 🔹 Pré-requisitos
 Antes de iniciar, certifique-se de ter instalado na sua máquina:
-- **JDK 23+**
+- **JDK 21**
 - **Docker**
 - **Maven**
 
@@ -68,8 +68,8 @@ spring.jpa.hibernate.ddl-auto=update
 |---------|----------------------------------------|------------|
 | `POST`  | `/events`                              | Cadastra um novo evento |
 | `GET`   | `/events`                              | Lista todos os eventos |
-| `GET`   | `/events/specific?id=`                 | Lista um evento específico pelo ID |
-| `GET`   | `/events/{prettyName}`                 | Lista um evento específico pelo prettyName do evento |
+| `GET`   | `/events/{id}=`                 | Lista um evento específico pelo ID |
+| `GET`   | `/events/name/{prettyName}`                 | Lista um evento específico pelo prettyName do evento |
 | `POST`  | `/subscription/{prettyname}`           | Inscrição para o evento |
 | `POST`  | `/subscription/{prettyname}/{indicatorId}` | Inscrição por indicação |
 | `GET`   | `/subscription/{prettyname}/ranking`   | Retorna o ranking geral de indicações para um evento específico |
