@@ -68,7 +68,7 @@ spring.jpa.hibernate.ddl-auto=update
 |---------|----------------------------------------|------------|
 | `POST`  | `/events`                              | Cadastra um novo evento |
 | `GET`   | `/events`                              | Lista todos os eventos |
-| `GET`   | `/events/{id}=`                 | Lista um evento específico pelo ID |
+| `GET`   | `/events/{id}`                 | Lista um evento específico pelo ID |
 | `GET`   | `/events/name/{prettyName}`                 | Lista um evento específico pelo prettyName do evento |
 | `POST`  | `/subscription/{prettyname}`           | Inscrição para o evento |
 | `POST`  | `/subscription/{prettyname}/{indicatorId}` | Inscrição por indicação |
