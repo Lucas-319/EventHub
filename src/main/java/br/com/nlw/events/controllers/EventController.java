@@ -23,7 +23,7 @@ public class EventController {
 												UriComponentsBuilder uriComponentsBuilder){
 		EventDto eventResponse = eventService.addNewEvent(newEvent);
 
-		var uri = uriComponentsBuilder.path("/events/id/{id}").buildAndExpand(eventResponse.id()).toUri();
+		var uri = uriComponentsBuilder.path("/events/{id}").buildAndExpand(eventResponse.id()).toUri();
 
 		return ResponseEntity.created(uri).body(eventResponse);
 	}
