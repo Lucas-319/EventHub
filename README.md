@@ -34,28 +34,19 @@ Antes de iniciar, certifique-se de ter instalado na sua máquina:
   docker compose up -d
 ```
 
-3. **Configure o banco no `application.properties` ou `application.yml`**  
-Exemplo:
-```properties
-spring.datasource.url= jdbc:mysql://localhost:3306/db_events
-spring.datasource.username=root
-spring.datasource.password=mysql
-spring.jpa.hibernate.ddl-auto=update
-```
-
-4. **Execute a aplicação**  
+3. **Execute a aplicação**  
 ```bash
   mvn spring-boot:run
 ```
 
-5. **Acesse a API** via Swagger UI:  
+4. **Acesse a API** via Swagger UI:  
 📌 [http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/)  
 
 ---
 
 ## 📌 Funcionalidades
 ✅ Cadastro de evento  
-✅ Consulta de eventos  
+✅ Consulta de evento  
 ✅ Inscrição e inscrição por indicação  
 ✅ Ranking de indicações
 
