@@ -71,7 +71,12 @@ public class SubscriptionService {
             throw new EventNotFoundException("There is no ranking for this event: "+prettyName+".");
         }
 
-        return subscriptionRepository.generateRanking(event.getEventId());
+        var ranking = subscriptionRepository.generateRanking(event.getEventId());
+        if(ranking.isEmpty()) {
+            throw new EventNotFoundException("There is no ranking for this event: "+prettyName+".");
+        }
+
+        return ranking;
     }
 
     public SubscriptionRankingByUser getRankingByUser(String prettyName,Integer userId) {
