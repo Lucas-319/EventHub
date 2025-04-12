@@ -31,7 +31,12 @@ public class SubscriptionController {
     @Operation(summary = "Retorna o ranking geral de indicações para um evento específico", method = "GET")
     @GetMapping("/subscription/{prettyName}/ranking")
     public ResponseEntity<Object> generateRankingByEvent(@PathVariable String prettyName) {
-        return ResponseEntity.ok(subscriptionService.getCompleteRanking(prettyName).subList(0, 3));
+        var ranking = subscriptionService.getCompleteRanking(prettyName);
+        if (ranking.size() >= 3){
+            return ResponseEntity.ok(ranking.subList(0, 3));
+        }
+
+        return ResponseEntity.ok(ranking);
     }
 
     @Operation(summary = "Retorna a posição de um usuário específico no ranking de um evento", method = "GET")
